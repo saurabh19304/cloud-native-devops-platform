@@ -1,14 +1,15 @@
-FROM node:22
+FROM node:22-slim
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --only=production
+RUN npm ci --omit=dev
 
-COPY . .
+COPY --chown=node:node server.js ./
+
+USER node
 
 EXPOSE 3000
 
 CMD ["node", "server.js"]
-
